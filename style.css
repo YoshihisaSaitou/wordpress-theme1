@@ -1,0 +1,20 @@
+/*
+Theme Name: wordpress-theme1
+Author: Yoshihisa Saito
+Description:Wordpress Theme 1
+Version: 1.0.0
+*/
+html{
+    margin: 0px;
+    padding: 0px;
+    font-size: 62.5%;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-size: 1.3rem;
+    font-family: "MS P ゴシック", Arial, "ヒラギノ明朝 Pro W3", "Hiragino Kaku Gothic Pro", "ヒラギノ明朝", Meiryo, sans-serif;
+    color: #333333;
+    line-height: 23px;
+}
