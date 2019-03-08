@@ -1,4 +1,7 @@
 <?php
+require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php');
+
 /*remove_action('wp_head', 'feed_links_extra', 3);
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_head', 'rsd_link');
@@ -350,7 +353,8 @@ function mynifyCss(){
     //オリジナルの方がminifyよりも新しい場合
     if($minify_filetime < $origin_filetime){
         //オリジナルのファイル取得
-        $css = $wp_filesystem->get_contents($origin_file_path);
+        $css = WP_Filesystem_Direct::get_contents($origin_file_path);
+        //$css = $wp_filesystem->get_contents($origin_file_path);
         //mynify実行
         //$css = minify_css($css);
         //$wp_filesystem->put_contents($minify_file_path, $css);
