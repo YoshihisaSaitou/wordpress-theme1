@@ -321,3 +321,38 @@ function getFileList($dir){
     }
     return $list;
 }
+
+
+/**
+ * ファイルの更新日時のタイムスタンプでキャッシュリセットしたURLを取得
+ */
+function getFileCacheReset($file_name){
+    return get_template_directory_uri().$file_name.'?'.filemtime(get_template_directory().$file_name);
+}
+
+/**
+ * cssの圧縮(mynify)
+ */
+/*mynifyCss();
+function mynifyCss(){
+    global $wp_filesystem;
+    
+    //オリジナルCSS
+    $origin_file_path = get_template_directory().'/style.css';
+    //minify後CSS
+    $minify_file_path = get_template_directory() . '/style.min.css';
+    
+    //オリジナルCSSの更新日時タイムスタンプ取得
+    $origin_filetime = filemtime($origin_file_path);
+    //minify後CSSの更新日時タイムスタンプ取得
+    $minify_filetime = filemtime($minify_file_path);
+    
+    //オリジナルの方がminifyよりも新しい場合
+    if($minify_filetime < $origin_filetime){
+        //オリジナルのファイル取得
+        $css = $wp_filesystem->get_contents($origin_file_path);
+        //mynify実行
+        //$css = minify_css($css);
+        //$wp_filesystem->put_contents($minify_file_path, $css);
+    }
+}*/
