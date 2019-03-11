@@ -442,3 +442,31 @@ function mynifyHtml($input){
     $input = preg_replace($pattern, $replacement, $input);
     return $input;
 }
+
+/**
+ * ページ取得
+ */
+function getPage(){
+    ob_start();
+    get_header();
+    if(have_posts()){
+        while(have_posts()){
+            the_post();
+            //the_post_thumbnail('full', array('class'=>'eyecatch'));
+            //echo getBreadcrumbList();
+            the_content();
+            //$content = get_the_content();
+            //$content = apply_filters('the_content', $content);
+            //$content = str_replace(']]>', ']]&gt;', $content);
+            //$content = mynifyHtml($content);
+            //echo $content;
+        }
+    }
+    get_footer();
+    $data = ob_get_contents();
+    ob_end_clean();
+
+    $data = mynifyHtml($data);
+
+    return $data;
+}

@@ -1,6 +1,9 @@
-<?php get_header(); ?>
 <?php
-if(have_posts()){
+echo getPage();
+?>
+<?php //get_header(); ?>
+<?php
+/*if(have_posts()){
     while(have_posts()){
         the_post();
         //the_post_thumbnail('full', array('class'=>'eyecatch'));
@@ -12,6 +15,6 @@ if(have_posts()){
         //$content = mynifyHtml($content);
         //echo $content;
     }
-}
+}*/
 ?>
-<?php get_footer(); ?>
+<?php //get_footer(); ?>
