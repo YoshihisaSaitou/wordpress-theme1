@@ -1,6 +1,3 @@
-<?php
-runMinify();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +13,7 @@ runMinify();
 <body>
 <div id="app">
 <header>
-    <h1><a href="/">●●株式会社</a></h1>
+    <h1><a href="/">abc株式会社</a></h1>
     <nav>
         <input id="header_nav_input" class="nav_input nav_unshown" type="checkbox">
         <label class="nav_open" for="header_nav_input"><span></span></label>

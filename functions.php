@@ -336,9 +336,67 @@ function getFileCacheReset($file_name){
 /**
  * cssの圧縮(mynify)
  */
-/*mynifyCss();
+mynifyCss();
 function mynifyCss(){
-    global $wp_filesystem;
+    //global $wp_filesystem;
+
+    $pattern = array(
+        // Fix case for `#foo<space>[bar="baz"]`, `#foo<space>*` and `#foo<space>:first-child` [^1]
+        '#(?<=[\w])\s+(\*|\[|:[\w-]+)#',
+        // Fix case for `[bar="baz"]<space>.foo`, `*<space>.foo`, `:nth-child(2)<space>.foo` and `@media<space>(foo: bar)<space>and<space>(baz: qux)` [^2]
+        '#([*\]\)])\s+(?=[\w\#.])#', '#\b\s+\(#', '#\)\s+\b#',
+        // Minify HEX color code … [^3]
+        '#\#([a-f\d])\1([a-f\d])\2([a-f\d])\3\b#i',
+        // Remove white–space(s) around punctuation(s) [^4]
+        '#\s*([~!@*\(\)+=\{\}\[\]:;,>\/])\s*#',
+        // Replace zero unit(s) with `0` [^5]
+        // <https://www.w3.org/Style/Examples/007/units.en.html>
+        '#\b(?<!\d\.)(?:0+\.)?0+(?:(?:cm|em|ex|in|mm|pc|pt|px|rem|vh|vmax|vmin|vw)\b)#',
+        // Replace `0.6` with `.6` [^6]
+        '#\b0+\.(\d+)#',
+        // Replace `:0 0`, `:0 0 0` and `:0 0 0 0` with `:0` [^7]
+        '#:(0\s+){0,3}0(?=[!,;\)\}]|$)#',
+        // Replace `background(?:-position)?:(0|none)` with `background$1:0 0` [^8]
+        '#\b(background(?:-position)?):(?:0|none)([;,\}])#i',
+        // Replace `(border(?:-radius)?|outline):none` with `$1:0` [^9]
+        '#\b(border(?:-radius)?|outline):none\b#i',
+        // Remove empty selector(s) [^10]
+        '#(^|[\{\}])(?:[^\{\}]+)\{\}#',
+        // Remove the last semi–colon and replace multiple semi–colon(s) with a semi–colon [^11]
+        '#;+([;\}])#',
+        // Replace multiple white–space(s) with a space [^12]
+        '#\s+#'
+    );
+
+    $replacement = array(
+        // [^1]
+        "\x1A" . '$1',
+        // [^2]
+        '$1' . "\x1A",
+        "\x1A" . '(', ')' . "\x1A",
+        // [^3]
+        '#$1$2$3',
+        // [^4]
+        '$1',
+        // [^5]
+        '0',
+        // [^6]
+        '.$1',
+        // [^7]
+        ':0',
+        // [^8]
+        '$1:0 0$2',
+        // [^9]
+        '$1:0',
+        // [^10]
+        '$1',
+        // [^11]
+        '$1',
+        // [^12]
+        ' '
+    );
+    //preg_replace($pattern, $replacement, $input)
+    //trim(str_replace(X, ' ', $input));
     
     //オリジナルCSS
     $origin_file_path = get_template_directory().'/style.css';
@@ -348,7 +406,11 @@ function mynifyCss(){
     //オリジナルCSSの更新日時タイムスタンプ取得
     $origin_filetime = filemtime($origin_file_path);
     //minify後CSSの更新日時タイムスタンプ取得
-    $minify_filetime = filemtime($minify_file_path);
+    if(is_file($minify_file_path)){
+        $minify_filetime = filemtime($minify_file_path);
+    }else{
+        $minify_filetime = 0;
+    }
     
     //オリジナルの方がminifyよりも新しい場合
     if($minify_filetime < $origin_filetime){
@@ -359,4 +421,24 @@ function mynifyCss(){
         //$css = minify_css($css);
         //$wp_filesystem->put_contents($minify_file_path, $css);
     }
-}*/
+}
+
+/**
+ * htmlの圧縮(mynify)
+ */
+function mynifyHtml($input){
+    $pattern = array(
+        '/\>[^\S ]+/s',//タグの前の余計なスペースを削除
+        '/[^\S ]+\</s',//タグの後ろの余計なスペースは削除
+        '/(\s)+/s',//連続した無駄な無いスペースを削除
+        '/<!--(.|\s)*?-->/'//コメント部分は削除
+    );
+    $replacement = array(
+        '>',
+        '<',
+        '\\1',
+        ''
+    );
+    $input = preg_replace($pattern, $replacement, $input);
+    return $input;
+}
