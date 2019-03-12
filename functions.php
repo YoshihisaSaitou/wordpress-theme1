@@ -1,6 +1,7 @@
 <?php
 require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
 require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php');
+require_once(ABSPATH . 'wp-admin/includes/file.php');
 
 /*remove_action('wp_head', 'feed_links_extra', 3);
 remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -338,7 +339,7 @@ function getFileCacheReset($file_name){
  */
 mynifyCss();
 function mynifyCss(){
-    //global $wp_filesystem;
+    global $wp_filesystem;
 
     $pattern = array(
         // Fix case for `#foo<space>[bar="baz"]`, `#foo<space>*` and `#foo<space>:first-child` [^1]
@@ -413,14 +414,18 @@ function mynifyCss(){
     }
     
     //オリジナルの方がminifyよりも新しい場合
-    if($minify_filetime < $origin_filetime){
+    //if($minify_filetime < $origin_filetime){
+        //$WP_Filesystem_Direct = new WP_Filesystem_Direct(null);
         //オリジナルのファイル取得
         $css = WP_Filesystem_Direct::get_contents($origin_file_path);
         //$css = $wp_filesystem->get_contents($origin_file_path);
         //mynify実行
-        //$css = minify_css($css);
-        //$wp_filesystem->put_contents($minify_file_path, $css);
-    }
+        $css = preg_replace($pattern, $replacement, $css);
+        //echo $css;
+        WP_Filesystem_Direct::put_contents($minify_file_path, $css);
+        //$WP_Filesystem_Direct->put_contents($minify_file_path, $css);
+        //$wp_filesystem->put_contents($minify_file_path, $css, 0644);
+    //}
 }
 
 /**

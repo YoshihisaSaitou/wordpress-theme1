@@ -1,5 +1,5 @@
 <?php
-echo getPage();
+//echo getPage();
 ?>
 <?php //get_header(); ?>
 <?php
