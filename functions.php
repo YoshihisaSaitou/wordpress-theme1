@@ -417,12 +417,12 @@ function mynifyCss(){
     //if($minify_filetime < $origin_filetime){
         //$WP_Filesystem_Direct = new WP_Filesystem_Direct(null);
         //オリジナルのファイル取得
-        $css = WP_Filesystem_Direct::get_contents($origin_file_path);
-        //$css = $wp_filesystem->get_contents($origin_file_path);
+        //$css = WP_Filesystem_Direct::get_contents($origin_file_path);
+        $css = $wp_filesystem->get_contents($origin_file_path);
         //mynify実行
         $css = preg_replace($pattern, $replacement, $css);
         //echo $css;
-        WP_Filesystem_Direct::put_contents($minify_file_path, $css);
+        //WP_Filesystem_Direct::put_contents($minify_file_path, $css);
         //$WP_Filesystem_Direct->put_contents($minify_file_path, $css);
         //$wp_filesystem->put_contents($minify_file_path, $css, 0644);
     //}
