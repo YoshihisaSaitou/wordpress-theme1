@@ -6,13 +6,9 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <link rel="shortcut icon" href="<?php bloginfo('template_url'); ?>/favicon.ico">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<?php
-/*
-<script src="<?php bloginfo('template_url'); ?>/js/common.js?<?php  echo '?' . filemtime(get_stylesheet_directory() . '/js/common.js'); ?>"></script>
-*/
-?>
-<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url'); echo '?' . filemtime(get_stylesheet_directory() . '/style.css'); ?>" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="<?php echo getFileCacheReset('/js/common.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo getFileCacheReset('/style.css'); ?>" />
 <?php wp_head(); ?>
 </head>
 <body>
@@ -23,7 +19,7 @@
         <input id="header_nav_input" class="nav_input nav_unshown" type="checkbox">
         <label class="nav_open" for="header_nav_input"><span></span></label>
         <label class="nav_close nav_unshown" for="header_nav_input"></label>
-        <div class="nav_content"><?php //wp_nav_menu(array('theme_location'=>'global-navi')); ?></div>
+        <div class="nav_content"><?php wp_nav_menu(array('theme_location'=>'global-navi')); ?></div>
     </nav>
 </header>
 <div id="contents">

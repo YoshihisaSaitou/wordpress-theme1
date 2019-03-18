@@ -40,9 +40,6 @@ add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu(){
     register_nav_menu('global-navi', 'グローバルナビ');
     register_nav_menu('footer-navi', 'フッターナビ');
-    register_nav_menu('about-navi', '企業情報ナビ');
-    register_nav_menu('business-navi', '事業内容ナビ');
-    register_nav_menu('recruit-navi', '採用情報ナビ');
     register_nav_menu('sitemap', 'サイトマップ');
 }
 
@@ -337,7 +334,7 @@ function getFileCacheReset($file_name){
 /**
  * cssの圧縮(mynify)
  */
-mynifyCss();
+//mynifyCss();
 function mynifyCss(){
     global $wp_filesystem;
 
@@ -418,9 +415,15 @@ function mynifyCss(){
         //$WP_Filesystem_Direct = new WP_Filesystem_Direct(null);
         //オリジナルのファイル取得
         //$css = WP_Filesystem_Direct::get_contents($origin_file_path);
-        $css = $wp_filesystem->get_contents($origin_file_path);
+        //$css = '';
+        //if(is_object($wp_filesystem)){
+        //    $css = $wp_filesystem->get_contents($origin_file_path);
+        //    $css = preg_replace($pattern, $replacement, $css);
+        //    $wp_filesystem->put_contents($minify_file_path, $css);
+        //}
+        //$css = $wp_filesystem->get_contents($origin_file_path);
         //mynify実行
-        $css = preg_replace($pattern, $replacement, $css);
+        //$css = preg_replace($pattern, $replacement, $css);
         //echo $css;
         //WP_Filesystem_Direct::put_contents($minify_file_path, $css);
         //$WP_Filesystem_Direct->put_contents($minify_file_path, $css);
@@ -471,7 +474,7 @@ function getPage(){
     $data = ob_get_contents();
     ob_end_clean();
 
-    $data = mynifyHtml($data);
+    //$data = mynifyHtml($data);
 
     return $data;
 }
