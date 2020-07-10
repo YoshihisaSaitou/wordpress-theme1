@@ -1,4 +1,5 @@
 <?php
+//
 //リダイレクト
 header( "Location: ".home_url() ) ;
 exit;
